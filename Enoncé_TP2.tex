@@ -1,0 +1,164 @@
+\documentclass[11pt]{exam}
+\RequirePackage{amssymb, amsfonts, amsmath, latexsym, verbatim, xspace, setspace}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[]{geometry}
+%\geometry {portrait, includehead, left=2cm, right=2cm, top=2cm, bottom=2cm}
+%\hypersetup{
+ %   unicode=false,          % non-Latin characters in Acrobat?s bookmarks
+  %  colorlinks=true,       % false: boxed links; true: colored links
+    %linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+    %citecolor=green,        % color of links to bibliography
+    %filecolor=magenta,      % color of file links
+    %urlcolor=magenta           % color of external links
+%}
+
+\pagestyle{headandfoot}
+
+%\def\dbC{{\mathrm{I\hskip-4.7pt C}}}
+%\def\dbR{{\mathrm{I\hskip-2.2pt R}}}
+%\def\dbN{{\mathrm{I\hskip-2.2pt N}}}
+%\def\esp{{\mathrm{I\hskip-1.5pt E}}}
+%\def\pr{{\mathrm{I\hskip-2.2pt P}}}
+%\def\clL{{\mathrm{\cal L}}}
+%\def\cltL{{\mathrm{\widetilde{\cal L}}}}
+%\def\w{{\mathbf{w}}}
+%\def\x{{\mathbf{x}}}
+%\def\Blambda{{\mathbf{\lambda}}} 
+
+% =================================================================================
+%\newcommand{\moncadre}[1]%
+%{\fbox{
+ %   \begin{minipage}{400pt} #1
+  %  \end{minipage}
+%}}
+
+%\figgauche{LargeurImage}{FichierImage.eps}{TexteADroite}
+%
+\newlength\jataille
+\newcommand{\figgauche}[3]%
+{\jataille=1\linewidth\advance\jataille by -#1
+      \advance\jataille by -.5cm
+      \begin{minipage}[c]{6pc}
+      \includegraphics[width=6pc]{#2}
+      \end{minipage}\hfill
+      \begin{minipage}[c]{30pc} #3
+      \end{minipage}
+		~\newline{}
+}
+
+
+% =================================================================================
+\extraheadheight{50pt}
+\extrafootheight{-70pt}
+\firstpageheader{\includegraphics[width=100pt]{logoinsa} \\ L. Noiret, \\A. Rogozan \\ M.A. Haddouche}
+{\Large \bf ~~TP \\ 
+  Statistiques Descriptives \\ Analyse multi-dimensionnelle }
+{\includegraphics[width=90pt]{logoasi} \\ $ 3^{\mbox{\footnotesize
+      e}}$ ann\'ee}
+\runningheader{ASI3}{Stats}{}
+\headrule
+\footer{}{}{p.\thepage/\numpages}
+
+% For an exam, single spacing is most appropriate
+% \singlespacing
+% \onehalfspacing
+% \doublespacing
+
+% For an exam, we generally want to turn off paragraph indentation
+\parindent 0ex
+\newcommand{\matlab}[1]{ \verb|>>| #1 }
+
+\begin{document} 
+%\documentclass[11pt]{article}
+%\usepackage{amsmath,amssymb}
+%\usepackage{graphicx}
+%\usepackage{changepage}
+%\usepackage{rotating}
+%\renewcommand{\baselinestretch}{1.2}
+%\newcommand{\specialcell}[3][l]{%
+ % \begin{tabular}[#1]{@{}c@{}@{}}#3\end{tabular}}
+%\begin{document}
+%\title{Analyse descriptive (suite)}
+
+%\date{}
+%\author{}
+%\maketitle
+ \section*{Quelques d\'efinitions}
+\begin{itemize}
+\item Le coefficient d'asym\'etrie (skewness en anglais) : mesure l'asym\'etrie d'une distribution d'une variable r\'eelle. Un coefficient positif (resp. n\'egatif) indique une queue de distribution \'etal\'ee vers la droite (resp. gauche).
+
+%\item Le coefficient d'aplatissement (kurtosis): une mesure de l'aplatissement d'une courbe. Un coefficient d'aplatissement élevé indique que la distribution est plutôt pointue en sa moyenne, et a des queues de distribution épaisses 
+
+\item Le coefficient de corr\'elation lin\'eaire (r): mesure l'intensit\'e de la liaison lin\'eaire entre deux variables quantitative. r varie entre -1 et 1. Une valeur proche de 0, indique que les donn\'ees ne sont pas li\'ees lin\'eairement, une valeur proche de -1 (resp. 1) indique que les donn\'ees sont fortement li\'ees n\'egativement (resp. postivement).
+
+\item nuage de points (scatter plot en anglais) est une repr\'esentation de donn\'ees (x versus y) qui permet de mettre en \'evidence le type de liaisons entre deux variables.
+\end{itemize}
+
+ \section*{Description d'un base de donn\'ees cliniques}
+On s'int\'eresse aux r\'esultats d'une \'etude clinique r\'ealis\'ee aux Etats-Unis. Le jeu de donn\'ees contient :
+\begin{itemize}
+\item $gender$ : le sexe du patient;
+\item $ethnicity$ : l'origine \'ethnique d\'eclar\'ee (cette question est couramment pos\'ee  aux Etats Unis);
+\item $age$ : l'\^age du patient au moment de l'\'etude;
+\item $weight$ : le poids du patient ;
+\item $protein$,   $protein2$,  $protein3$: la concentration de trois prot\'eines d'int\'er\^et dans le sang 
+\item \textit{n\_visit} : le nombre de visites m\'edicales au cours des 24 derniers mois.
+\end{itemize}
+
+\section{Chargement et pr\'e-traitements des donn\'ees  } 
+Importer le fichier $study.csv$ et enregistrer les donn\'ees au format table.\\
+Quels sont les types des diff\'erentes variables? \\
+\begin{itemize}
+\item Les variables $gender$ et $ethnicity$ sont pour l'instant enregistr\'ees en tant que cha\^ines de caract\`eres. Nous allons les transformer en variables cat\'egorielles (ce qui nous facilitera leur analyse). Ex\'ecuter les lignes suivantes : \\
+\indent \textit{study.ethnicity=categorical(study.ethnicity);}\\
+\indent \textit{study.gender=categorical(study.gender);}
+\item Supprimer les individus dont l'\^age est inf\'erieur \`a 15 ans :\\
+\textit{study(study.age$\leq$15,:)=[];}\\
+\end{itemize}
+
+
+
+Utiliser la fonction $summary$ afin d'obtenir une vue d'ensemble rapide des donn\'ees. A premi\`ere vue, les donn\'ees contiennent-elles des valeurs ab\'errantes ou atypiques?
+
+
+
+\section{Tableau des fr\'equences} 
+Donner le tableau des fr\'equences $f$ et des fr\'equences cumul\'ees $F$ de la variable $n\_visit$ en adaptant le code suivant:\\
+\textit{[n,edges]=histcounts(X,unique(X))\\
+N=cumsum(n)}
+\\
+Etudier ces tableaux pour en d\'eduire la valeur de la m\'ediane, du 1er quartile et du 3e quartile.
+\section{Repr\'esentation graphique unidimensionnelle}
+Repr\'esenter graphiquement les effectifs des variables $gender$, $ethnicity$, $weight$.\\
+%Quelle indicateur de tendance central pouvez-vous utiliser pour chaque variable?\\
+%Utiliser la fonction $summary$ pour vous faire une premi\`ere id\'ee sur les donn\'ees.
+Tracer les boites à moustaches des variables quantitatives.
+\section{Repr\'esentation graphique multidimensionelle}
+%Adapter le code suivant pour obtenir les nuages de points et histogrammes de toutes les variables quantitatives continues: \\
+%\noindent \textit{dataLabels = \{`label 1',`label 2',`label 3'\}}\\
+%$[H,AX] = plotmatrix(data);$\\
+%\textit{for i = 1: length(AX)}\\
+%\indent  \textit{ ylabel(AX(i,1),dataLabels\{i\});}\\
+%\indent   \textit{ xlabel(AX(end,i),dataLabels\{i\});}\\
+%\textit{end}\\
+%Notes: la fonction $plotmatrix$ n'accepte que des donn\'ees de type array. Pour transformer une table en array, vous devez utiliser $table2array$.\\
+%Pour r\'ecuper le noms des variables dans une table, utiliser : \textit{study.Properties.VariableNames}.
+%\subsubsection{Coefficient d'asym\'etrie}
+%Aide : la fonction \textit{`skewness'} de matlab prend en entr\'ee un array et non une table.    
+Tracer les nuages de point de la variable $weigth$ en fonction des variables $protein,protein2$ et $protein3$\\
+Comment d\'ecririez-vous les relations entre ces diff\'erentes variables ?\\
+Calculer les coefficients de corr\'elations entre la variable $weigth$ et $protein,protein2$ et $protein3$. Commenter\\
+Tracer les histogrammes des variables $age,protein, protein2$ et $weigth$.\\
+A votre avis, les coefficients d'asym\'etrie  associ\'es aux variables $age$ et $protein2$ sont-ils positifs ou n\'egatifs? V\'erifier votre intuition en calculant le coefficient d'asym\'etrie sur toutes les variables quantitatives.\\
+
+\section{Recodage d'une variable}
+Ecrire un code pour recoder la variable $age$ en 5 classes d'effectifs \'egaux. Les r\'esulats seront stock\'es dans une variable de la table $study$ sous le nom  \textit{`age\_5cat'}.\\
+Tracer l'histogramme de cette nouvelle variable.
+
+Aide : regarder les fonctions $quantile$ et $discretize$.
+\end{document}

@@ -1,0 +1,106 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage[margin=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+
+\lstset{
+    breaklines=true,
+    numbers=left,
+    frame=single
+    }
+
+\pagestyle{fancy}
+\fancyhead[L]{NOM(S) et Prénom(s)}
+\fancyfoot{}
+
+\begin{document}
+
+\begin{center}
+    {\Huge Analyse multi-dimensionnelle}
+\end{center}
+
+\section{Chargement et pré-traitements des données}
+
+Types des différentes variables :
+\begin{description}
+    \item[gender] 
+    \item[ethnicity] 
+    \item[age] 
+    \item[weight] 
+    \item[protein, protein2, protein3] 
+    \item[n\_visit] 
+\end{description}
+
+% Y'a-t-il des données atypiques/aberrantes ?
+
+\section{Tableau des fréquences}
+
+\begin{table}[h] 
+    \centering
+    \begin{tabular}{l|c|c|c|c|c|c|c|c|c}
+        Nombre de visites & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
+        Fréquences & & & & & & & & &\\ 
+        Fréquences cumulées & & & & & & & & &\\
+    \end{tabular}
+\end{table}
+
+On en déduit : % Préciser la méthode utilisée
+\begin{description}
+    \item[Médiane] 
+    \item[1\ier{} Quartile]
+    \item[3\ieme{} Quartile]
+\end{description}
+
+\section{Représentations graphiques unidimensionnelle}
+
+\begin{figure}[h] %Représentation graphique de gender
+    \centering
+    %\includegraphics[width=5cm]{image.png}
+\end{figure}
+Pour \emph{gender}, on peut utiliser ... % Justifier votre choix
+
+\begin{figure}[h] %Représentation graphique de ethnicity
+    \centering
+    %\includegraphics[width=5cm]{image.png}
+\end{figure}
+Pour \emph{ethnicity}, on peut utiliser ... % Justifier votre choix
+
+\begin{figure}[h] %Représentation graphique de weight
+    \centering
+    %\includegraphics[width=5cm]{image.png}
+\end{figure}
+Pour \emph{weight}, on peut utiliser ... % Justifier votre choix
+
+\newpage
+\section{Représentation graphique multidimensionnelle}
+
+
+
+
+
+
+
+
+
+% Copier-coller la sortie Matlab dans le cadre suivant et 
+
+
+\section{Recodage d'une variable}
+
+\begin{figure}[h] %Histogramme de la variable recodée 
+    \centering
+    %\includegraphics[width=5cm]{image.png}
+\end{figure}
+
+\newpage
+\appendix
+
+\section{Code}
+%\lstinputlisting[language=Matlab]{sourceTP2.m}
+
+\end{document}
